@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo_pagina %}
+<h2 class="titulo_pagina">Home</h2>
+{% endblock %}
+
+{% block conteudo %}
+<h1>Nesta aplicação serão exemplificadas as aplicações dos princípios <strong>SOLID</strong>.</h1>
+<br>
+<br>
+<div style="text-align: center;">
+    <h1 style="text-align: center;">DER do Banco de Dados:</h1>
+    <br>
+    <img src="{% static 'imagens/DER.jpg' %}" alt="" height="200px">
+
+</div>
+
+{% endblock %}

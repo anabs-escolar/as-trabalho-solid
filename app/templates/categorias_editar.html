@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block titulo_pagina %}
+    <h2 class="titulo_pagina">{{ acao }} de Categoria</h2>
+{% endblock %}
+
+{% block conteudo %}
+
+<form action="/categorias/salvar/" method="post">
+
+    {% csrf_token %}
+
+    <input id="acao" name="acao" type="hidden" value="{{ acao }}">
+    
+    {% if acao == 'Exclusão' %}
+        <p>Deseja realmente excluir este registro?</p>
+        <br>
+        <input type="hidden" id="id" name="id" value="{{form.id.value}}">
+
+        <fieldset disabled>
+    {% endif%}
+
+
+
+    <!-- CAMPOS DEFINIDOS NO FORMULARIO -->
+    {{ form.as_p}}
+
+    <br><br>
+
+    <label for=""></label>
+    {% if acao == 'Exclusão' %}
+        </fieldset>
+        <input class="btn-del" type="submit" value="Excluir">
+    {% else %}
+        <button class="btn" type="submit">Salvar</button>
+    {% endif %}
+    &nbsp;
+    <a class="btn-def" href="{% url 'categorias' %}">Cancelar</a>        
+
+</form>
+
+{% endblock %}

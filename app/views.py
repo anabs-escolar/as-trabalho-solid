@@ -7,11 +7,53 @@ from django.urls import reverse
 
 import sqlite3
 
+from .classes import Categoria, Produto
+from .forms import CategoriaForm, ProdutoForm
+from .services import CategoriaService
+    
 
-# formulario utilizado para edicao de registros de categorias
-class CategoriaForm(forms.Form):
-    id = forms.IntegerField(label='ID', widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False)
-    descricao = forms.CharField(label='Descrição', max_length=30, required=True)
+class CategoriaView:
+
+    def list( request):
+        template_name = "categorias_listar.html"
+        try:
+            registros = CategoriaService.getAll()
+            # define a pagina a ser carregada, adicionando os registros das tabelas 
+            return render(request, template_name, context={'registros': registros})
+          # se ocorreu algunm erro, insere a mensagem para ser exibida no contexto da página 
+        except Exception as err:
+            return render(request, template_name, context={'ERRO': err})
+        
+    def save(self, request):
+        try:
+            form_data = request.POST
+            acao_form = form_data['acao']
+            categoria = Categoria(form_data['id'], form_data['descricao'])
+            CategoriaService.save(acao=acao_form, data=categoria)
+            return HttpResponseRedirect( reverse("categorias") )
+
+        except Exception as err:
+            return render(request, "home.html", context={'ERRO': err})
+        
+    def create(self, request):
+        return render(request, 'categorias_editar.html',
+                           context={'acao': 'Inclusão', 'form': CategoriaForm() })
+
+    def update(self, request, id):
+        acao = 'Alteração'
+        categoria = CategoriaService.get(id)
+        categoria_dict = {'id': categoria.id, 'descricao':categoria.descricao}
+        return render(request, 'categorias_editar.html', 
+                           context={'acao': acao, 'form': CategoriaForm(initial=categoria_dict) })
+        
+    def delete(self, request, id):
+        acao = 'Exclusão'
+        categoria = CategoriaService.get(id)
+        categoria_dict = {'id': categoria.id, 'descricao':categoria.descricao}
+        return render(request, 'categorias_editar.html', 
+                            context={'acao': acao, 'form': CategoriaForm(initial=categoria_dict) })
+                
+                
 
 # Método responsavel por listar, incluir, alterar e excluir as Categorias.
 def categorias(request, acao=None, id=None):
@@ -112,26 +154,6 @@ def categorias(request, acao=None, id=None):
         return render(request, 'home.html', context={'ERRO': err})
 
 
-
-
-# formulario utilizado para edicao de registros de produtos
-class ProdutoForm(forms.Form):
-    id = forms.IntegerField(label='ID', widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False)
-    descricao = forms.CharField(label='Descrição', max_length=30, required=True)
-    preco_unitario = forms.DecimalField(label='Preço Unitário', max_digits=10, decimal_places=2, required=True)
-    quantidade_estoque = forms.IntegerField(label='Qtd. Estoque', required=True)
-    categoria_id = forms.ChoiceField(label='Categoria', required=True)
-
-    # construtor do Formulario
-    def __init__(self, *args, **kwargs):
-            # chama construtor da classe-Pai
-            super().__init__(*args, **kwargs)
-            # obtem a conexao com o banco de dados
-            conexao = sqlite3.connect('db_solid.sqlite3')
-            # obtem os registros da tabela Departamentos
-            categorias = conexao.cursor().execute('SELECT id, descricao FROM Categoria ORDER BY descricao').fetchall()
-            # carrega as categorias no <select> da página usando o ChoiceField
-            self.fields['categoria_id'].choices = categorias
 
 
 # Método responsavel por listar, incluir, alterar e excluir os Produtos.

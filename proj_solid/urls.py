@@ -40,7 +40,7 @@ urlpatterns = [
     #   - categorias/excluir/<id>/ : exibe a página de exclusao de registro
     #   - categorias/salvar/       : insere, altera ou exclui um registro do BD
     # 
-    path('categorias/', views.categorias, name='categorias'),
+    path('categorias/', views.CategoriaView.list, name='categorias'),
     path('categorias/<str:acao>/', views.categorias, name='categorias' ), 
     path('categorias/<str:acao>/<int:id>/', views.categorias, name='categorias'),
 

@@ -24,10 +24,10 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
+
     # define as rotas de URL da nossa aplicacao
     path('', views.home, name='home'),
-    
+
     # path('instrucoes/', 'instrucoes/instrucoes.html', name='instrucoes'),
 
 
@@ -39,10 +39,10 @@ urlpatterns = [
     #   - categorias/alterar/<id>/ : exibe a página de alteracao de registro
     #   - categorias/excluir/<id>/ : exibe a página de exclusao de registro
     #   - categorias/salvar/       : insere, altera ou exclui um registro do BD
-    # 
+    #
     path('categorias/', views.CategoriaView.list, name='categorias'),
-    path('categorias/<str:acao>/', views.categorias, name='categorias' ), 
-    path('categorias/<str:acao>/<int:id>/', views.categorias, name='categorias'),
+    path('categorias/<str:acao>/', views.CategoriaView.action, name='categorias' ),
+    path('categorias/<str:acao>/<int:id>/', views.CategoriaView.action, name='categorias'),
 
     # ===========================================================================
     # Rotas: PRODUTO
@@ -51,12 +51,12 @@ urlpatterns = [
     #   - produtos/alterar/<id>/ : exibe a página de alteracao de registro
     #   - produtos/excluir/<id>/ : exibe a página de exclusao de registro
     #   - produtos/salvar/       : insere, altera ou exclui um registro do BD
-    # 
-    # 
+    #
+    #
     path('produtos/', views.produtos, name='produtos'),
-    path('produtos/<str:acao>/', views.produtos, name='produtos' ), 
+    path('produtos/<str:acao>/', views.produtos, name='produtos' ),
     path('produtos/<str:acao>/<int:id>/', views.produtos, name='produtos'),
 
-] 
+]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

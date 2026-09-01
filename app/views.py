@@ -21,7 +21,7 @@ class CategoriaView:
             return instance.save(request)
         elif acao == 'alterar':
             return instance.update(request, id)
-        elif acao == 'deletar':
+        elif acao == 'excluir':
             return instance.delete(request, id)
         elif acao == 'incluir':
             return instance.create(request)
@@ -41,8 +41,8 @@ class CategoriaView:
         try:
             form_data = request.POST
             acao_form = form_data['acao']
-            categoria = Categoria(form_data['id'], form_data['descricao'])
-            CategoriaService.save(acao=acao_form, data=categoria)
+            print(acao_form)
+            CategoriaService.save(acao=acao_form, data=form_data)
             return HttpResponseRedirect(reverse("categorias"))
         except Exception as err:
             return render(request, "home.html", context={'ERRO': err})

@@ -53,9 +53,9 @@ urlpatterns = [
     #   - produtos/salvar/       : insere, altera ou exclui um registro do BD
     #
     #
-    path('produtos/', views.produtos, name='produtos'),
-    path('produtos/<str:acao>/', views.produtos, name='produtos' ),
-    path('produtos/<str:acao>/<int:id>/', views.produtos, name='produtos'),
+    path('produtos/', views.ProdutoView.list, name='produtos'),
+    path('produtos/<str:acao>/', views.ProdutoView.action, name='produtos' ),
+    path('produtos/<str:acao>/<int:id>/', views.ProdutoView.action, name='produtos'),
 
 ]
 

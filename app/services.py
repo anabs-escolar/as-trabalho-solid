@@ -97,9 +97,7 @@ class ProdutoService:
 
     def save(acao, data : Produto):
         conexao = sqlite3.connect('db_solid.sqlite3')
-        conexao.execute("PRAGMA foreign_keys = ON;") 
-        print(data.id)
-        print(acao)
+        conexao.execute("PRAGMA foreign_keys = ON;")
 
         if acao == 'Inclusão':
             sql = f'''
@@ -117,7 +115,6 @@ class ProdutoService:
                     );
                 '''
         elif acao == 'Exclusão':
-            print(data.id)
             sql = f"DELETE FROM Produto WHERE id = {data.id}"
         else:
             sql = f'''

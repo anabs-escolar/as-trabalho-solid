@@ -44,6 +44,8 @@ class CategoriaView:
             print(acao_form)
             CategoriaService.save(acao=acao_form, data=form_data)
             return HttpResponseRedirect(reverse("categorias"))
+        except sqlite3.IntegrityError:
+            return render(request, "home.html", context={'ERRO': 'Não é possível excluir uma categoria que possui um produto ou mais cadastrados com essa categoria.'})
         except Exception as err:
             return render(request, "home.html", context={'ERRO': err})
 

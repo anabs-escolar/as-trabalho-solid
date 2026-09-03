@@ -18,10 +18,14 @@ class Produto:
     descricao: str
     preco_unitario: float
     quantidade_estoque: int
+    categoria_id : int
+    categoria : str
     
-    def __init__(self, id: int, desc: str, p_uni: float, qtd: int):
+    def __init__(self, id: int, desc: str, p_uni: float, qtd: int, cat_id : int, cat: str):
         self.id = id
         self.descricao = desc
         self.preco_unitario = p_uni
         self.quantidade_estoque =  qtd
+        self.categoria_id = cat_id
+        self.categoria = cat
 

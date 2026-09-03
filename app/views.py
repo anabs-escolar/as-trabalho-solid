@@ -41,8 +41,8 @@ class CategoriaView:
         try:
             form_data = request.POST
             acao_form = form_data['acao']
-            print(acao_form)
-            CategoriaService.save(acao=acao_form, data=form_data)
+            categoria = Categoria(id=form_data.get('id', 0), desc=form_data.get('descricao', ""))
+            CategoriaService.save(acao=acao_form, data=categoria)
             return HttpResponseRedirect(reverse("categorias"))
         except sqlite3.IntegrityError:
             return render(request, "home.html", context={'ERRO': 'Não é possível excluir uma categoria que possui um produto ou mais cadastrados com essa categoria.'})

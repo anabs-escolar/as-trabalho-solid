@@ -31,20 +31,20 @@ class CategoriaService:
         categoria = Categoria(registro[0][0], registro[0][1]) # pegar o id e descricao
         return categoria
     
-    def save(acao, data: Categoria):
+    def save(acao: str, data: Categoria):
         conexao = sqlite3.connect('db_solid.sqlite3')
         conexao.execute("PRAGMA foreign_keys = ON;") 
         if acao == 'Inclusão':
-            sql = f"INSERT INTO Categoria(descricao) VALUES('{data['descricao']}')"
+            sql = f"INSERT INTO Categoria(descricao) VALUES('{data.descricao}')"
 
         elif acao == 'Exclusão':
-            sql = f"DELETE FROM Categoria WHERE id = {data['id']}"
+            sql = f"DELETE FROM Categoria WHERE id = {data.id}"
 
         else:
             sql = f'''
                 UPDATE Categoria 
-                SET descricao = '{data['descricao']}' 
-                WHERE id = {data['id']}
+                SET descricao = '{data.descricao}' 
+                WHERE id = {data.id}
             '''
 
         # cria um cursor() e executa o SQL informado
